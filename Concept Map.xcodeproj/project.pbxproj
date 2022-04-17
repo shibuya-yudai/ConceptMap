@@ -14,6 +14,7 @@
 		93ED4EE228072584007E48BB /* Concept_MapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED4EE128072584007E48BB /* Concept_MapTests.swift */; };
 		93ED4EEC28072584007E48BB /* Concept_MapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED4EEB28072584007E48BB /* Concept_MapUITests.swift */; };
 		93ED4EEE28072584007E48BB /* Concept_MapUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED4EED28072584007E48BB /* Concept_MapUITestsLaunchTests.swift */; };
+		93ED4EFB280B098C007E48BB /* SpringModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED4EFA280B098C007E48BB /* SpringModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		93ED4EE728072584007E48BB /* Concept MapUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Concept MapUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93ED4EEB28072584007E48BB /* Concept_MapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concept_MapUITests.swift; sourceTree = "<group>"; };
 		93ED4EED28072584007E48BB /* Concept_MapUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concept_MapUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		93ED4EFA280B098C007E48BB /* SpringModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpringModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +100,7 @@
 				93ED4ED228072580007E48BB /* ContentView.swift */,
 				93ED4ED428072584007E48BB /* Assets.xcassets */,
 				93ED4ED628072584007E48BB /* Preview Content */,
+				93ED4EFA280B098C007E48BB /* SpringModel.swift */,
 			);
 			path = "Concept Map";
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93ED4EFB280B098C007E48BB /* SpringModel.swift in Sources */,
 				93ED4ED328072580007E48BB /* ContentView.swift in Sources */,
 				93ED4ED128072580007E48BB /* Concept_MapApp.swift in Sources */,
 			);
