@@ -12,18 +12,18 @@ import SwiftUI
 class SpringModel {
     var nodes: [Node] = []
     var edges: [Edge] = []
-    
+
     //ノード数の取得
     func getNodes() -> [Node]{
         return nodes
     }
     //エッジ数の取得
     func countEdges() {}
-    
+
     func addNode(node: Node) {
         self.nodes.append(node)
     }
-    
+
     func convertNodeOrEdge(points: [CGPoint]){
         let radius: Double = 50
         let startPoint: CGPoint = points.first!
@@ -44,9 +44,9 @@ class SpringModel {
         }else{
             self.convertNode(points: points)
         }
-        
+
     }
-    
+
     //min, maxのx,y座標の値を取り出す
     func convertNode(points: [CGPoint]) {
         let xArray = points.map(\.x)
@@ -56,10 +56,10 @@ class SpringModel {
         let minY = yArray.min()!
         let maxY = yArray.max()!
         let origin = CGPoint(x: (maxX+minX)/2, y: (maxY+minY)/2)
-        
+
         self.nodes.append(Node(origin: origin, name: "node_\(self.nodes.count)"))
     }
-    
+
     //ノードの生成
     func createNode(origin: CGPoint = CGPoint(x: 0, y: 0), name: String = "node") ->Node {
         let node = Node(origin: origin, name: name)
@@ -73,12 +73,12 @@ class SpringModel {
         print(edge.toString())
         return edge
     }
-    
+
     func clear(){
         self.nodes.removeAll()
         self.edges.removeAll()
     }
-    
+
     //2つのNodeが接続しているかどうかを確認
     func isLinked(startNode: Node, endNode: Node) -> Bool {
         var bool = false
@@ -91,10 +91,10 @@ class SpringModel {
         }
         return bool
     }
-    
+
     func calculation() {
-        let step = 50 //計算回数
-        for i in 1 ... step {
+        let step = 10 //計算回数
+        for _ in 1 ... step {
             self.nodes.forEach{n_i in
                 self.nodes.forEach{n_j in
                     //print("calculate \(n_i.name) and \(n_j.name)")
@@ -109,9 +109,9 @@ class SpringModel {
             }
             //print("step \(i) ended.\n")
         }
-        
+
     }
-    
+
     //スプリングによる力Fs
     // startNodeにかかるFsを算出する
     func springForce(startNode: Node, endNode: Node) -> CGVector{
@@ -129,9 +129,8 @@ class SpringModel {
         //print(C_s * log10(d/d_0) * n)
         return C_s * log10(d/d_0) * n
     }
-    
+
     //被隣接ノード間の斥力Fr
-    //FIX:斥力がなんだかおかしい。最初くっつきにいくもん
     func repulsiveForce(startNode: Node, endNode: Node) -> CGVector{
         print("\(startNode.name): calculate repulsive force...")
         let C_r: Double = 2000
@@ -162,7 +161,7 @@ class Node: Identifiable {
     var origin: CGPoint
     var v: CGVector
     let delta = 0.5
-    
+
     init(origin: CGPoint = CGPoint(x: 0, y: 0), name: String = "node"){
         self.origin = origin
         self.v = CGVector(dx: 0, dy: 0)
@@ -172,15 +171,15 @@ class Node: Identifiable {
     func equals(node: Node) -> Bool{
         return self.id == node.id
     }
-    
+
     func getName() -> String {
         return self.name
     }
-    
+
     func addDxy (vector: CGVector) {
         self.v = self.v + vector
     }
-    
+
     //位置計算
     // self.origin = self.origin + self.v*delta
     func calcOrigin() {
@@ -188,10 +187,10 @@ class Node: Identifiable {
         self.origin.x = self.origin.x + self.v.dx * delta
         self.origin.y = self.origin.y + self.v.dy * delta
     }
-    
+
     //摩擦力
     func frictionalForce() {
-        let u:Double = 0.5
+        let u:Double = 0.3
         self.addDxy(vector: ((-u) * self.v))
     }
 }
@@ -203,13 +202,13 @@ class Edge: Identifiable {
     var endNode: Node
     var direction: Bool
     var initialLength: Int = 10
-    
+
     init(startNode: Node, endNode: Node, direction: Bool = false){
         self.startNode = startNode
         self.endNode = endNode
         self.direction = direction
     }
-    
+
     func getStartNode() {}
     func getEndNode() {}
     func getDirection() {}
@@ -221,7 +220,7 @@ class Edge: Identifiable {
             return startNode.getName() + " --- " + endNode.getName()
         }
     }
-    
+
     func getStartPoint() -> CGPoint{
         return self.startNode.origin
     }
@@ -259,7 +258,7 @@ extension CGVector {
     func getLength() -> Double {
         return sqrt(pow(self.dx, 2) + pow(self.dy, 2))
     }
-    
+
     /**
     ベクトルの等価性チェック
      */
@@ -269,7 +268,7 @@ extension CGVector {
         }
         return true
     }
-    
+
 }
 
 func + (left: CGVector, right: CGVector) -> CGVector {
@@ -282,5 +281,3 @@ func * (left: Double, right: CGVector) -> CGVector {
 func * (left: CGVector, right: Double) -> CGVector {
     return CGVector(dx: right * left.dx, dy: right * left.dy)
 }
-
-

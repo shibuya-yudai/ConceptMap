@@ -18,75 +18,89 @@ struct ContentView: View {
     @State private var currentLine: DrawLine?
     
     var body: some View {
-        VStack {
-            // リセットボタン
-            Button(action: {
-                springmodel.clear()
-            }, label: {
-                Text("Clear")
-            })
-            ZStack {
-                // Canvas部分
-                GeometryReader { geometry in
+        VStack(spacing : 0) {
+            ZStack{
+                Rectangle()
+                    .fill(Color.green)
+                    .border(Color.black, width: 1)
+                    .frame(height: 50)
+                Button(action: {
+                    springmodel.clear()
+                }, label: {
+                    Text("Clear")
+                })
+            }
+            HStack (spacing : 0){
+                ZStack {
+                    // Canvas部分
+                    GeometryReader { geometry in
+                        Rectangle()
+                            .fill(Color.white)
+                            .border(Color.black, width: 1)
+                            .gesture(
+                                DragGesture(minimumDistance: 0, coordinateSpace: .local)
+                                   .onChanged({ value in
+                                        if currentLine == nil {
+                                            currentLine = DrawLine.makeDrawLine(points: [])
+                                        }
+                                        guard var line = currentLine else { return }
+                                        line.points.append(value.location)
+                                        currentLine = line
+                                    })
+                                    .onEnded({ value in
+                                        guard var line = currentLine else { return }
+                                        line.points.append(value.location)
+                                        //手書きを図形に変換
+                                        springmodel.convertNodeOrEdge(points: line.points)
+                                        
+                                        //各Conceptの座標計算
+                                        springmodel.calculation()
+                                        
+                                        // リセット
+                                        currentLine = nil
+                                    })
+                            )
+                        
+                        
+                        // 追加ずみのNodeの描画
+                        ForEach(springmodel.nodes) { node in
+                            ZStack {
+                                Circle()
+                                    .fill(Color.red)
+                                    .frame(width: 50, height: 50)
+                                    .position(node.origin)
+                                    .animation(.easeInOut(duration: 1), value: node.origin)
+                                Text(node.name)
+                                    .position(x: node.origin.x, y: node.origin.y)
+                            }
+                         }.clipped()
+                        
+                        //　追加ずみのEdgeの描写
+                        //TODO: アニメーションつける、むずい
+                        ForEach(springmodel.edges) { edge in
+                            Arrow.makeEdge(edge: edge)
+                                .stroke()
+                                .foregroundColor(.red)
+                        }
+                        
+
+                        // ドラッグ中のLineの描画
+                        Path { path in
+                            guard let line = currentLine else { return }
+                            path.addLines(line.points)
+                        }.stroke(Color.red, lineWidth: 1)
+                        .clipped()
+                    }
+                    
+                }
+                ZStack{
                     Rectangle()
                         .fill(Color.white)
                         .border(Color.black, width: 1)
-                        .gesture(
-                            DragGesture(minimumDistance: 0, coordinateSpace: .local)
-                               .onChanged({ value in
-                                    if currentLine == nil {
-                                        currentLine = DrawLine.makeDrawLine(points: [])
-                                    }
-                                    guard var line = currentLine else { return }
-                                    line.points.append(value.location)
-                                    currentLine = line
-                                })
-                                .onEnded({ value in
-                                    guard var line = currentLine else { return }
-                                    line.points.append(value.location)
-                                    //手書きを図形に変換
-                                    springmodel.convertNodeOrEdge(points: line.points)
-                                    
-                                    //各Conceptの座標計算
-                                    springmodel.calculation()
-                                    
-                                    // リセット
-                                    currentLine = nil
-                                })
-                        )
-                    Text("X: \(geometry.frame(in: .local).origin.x) Y: \(geometry.frame(in: .local).origin.y) width: \(geometry.frame(in: .local).width) height: \(geometry.frame(in: .local).height)")
-                    
-                    // 追加ずみのNodeの描画
-                    ForEach(springmodel.nodes) { node in
-                        ZStack {
-                            Circle()
-                                .fill(Color.red)
-                                .frame(width: 50, height: 50)
-                                .position(node.origin)
-                                .animation(.easeInOut(duration: 1), value: node.origin)
-                            Text(node.name)
-                                .position(x: node.origin.x, y: node.origin.y)
-                        }
-                     }.clipped()
-                    
-                    //　追加ずみのEdgeの描写
-                    //TODO: アニメーションつける、むずい
-                    ForEach(springmodel.edges) { edge in
-                        Arrow.makeEdge(edge: edge)
-                            .stroke()
-                            .foregroundColor(.red)
-                    }
-                    
-
-                    // ドラッグ中のLineの描画
-                    Path { path in
-                        guard let line = currentLine else { return }
-                        path.addLines(line.points)
-                    }.stroke(Color.red, lineWidth: 1)
-                    .clipped()
+                        .frame(minWidth: 0, alignment: .center)
+                        
                 }
-                
-            }.padding(20)
+            }
         }
     }
 }
@@ -142,5 +156,6 @@ struct Arrow: Shape {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewInterfaceOrientation(.landscapeLeft)
     }
 }
