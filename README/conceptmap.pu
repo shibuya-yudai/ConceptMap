@@ -1,0 +1,155 @@
+@startuml
+
+'---------Presentation Layer---------
+HomeView "1" --o "many" ContentView
+Class HomeView <<S, yellow)>> {
+
+}
+
+ContentView ..> EditView
+ContentView ..> MapView
+Class ContentView <<S, yellow)>> {
+
+}
+Class EditView <<S, yellow)>> {
+
+}
+
+MapView ..> DrawLine
+MapView "1" --o "many" NodeView
+MapView "1" --o "many" EdgeView
+MapView ..> MenuView
+DrawLine ..> DrawLineController
+
+Class MapView  <<S, yellow)>> {
+    + [NodeView]
+    + [EdgeView]
+    + currentLine
+}
+Class DrawLine <<S, yellow)>> {
+    + id
+    + points
+    ---
+    + makeDrawLine()
+}
+Class NodeView <<S, yellow)>>{
+    + animatableData
+    + path()
+}
+Class EdgeView <<S, yellow)>>{
+    + animatableData
+    + enum relations
+    + startPoint
+    + endPoint
+    + path()
+    + makeEdge()
+}
+Class MenuView <<S, yellow)>>{
+    + saveData()
+}
+Class DrawLineController {
+    + ConvertDrawLine()
+    + createNode()
+    + createEdge()
+    + deleteNode()
+    + deleteEdge()
+}
+
+NodeView ..> NodePresenter
+EdgeView ..> EdgePresenter
+MenuView ..> MenuController
+
+'---------Presentation Layer---------
+
+
+'---------Presentation Domain Interface---------
+NodePresenter --|> INodePresenter
+EdgePresenter --|> IEdgePresenter
+DrawLineController --|> IDrawLineUsecase
+MenuController --|> IMenuUsecase
+
+interface IDrawLineUsecase {
+    + ConvertDrawLine()
+    + createNode()
+    + createEdge()
+    + deleteNode()
+    + deleteEdge()
+}
+interface IMenuUsecase {
+    + save()
+}
+interface INodePresenter{
+    + Complete()
+}
+interface IEdgePresenter{
+    + Complete()
+}
+
+'---------Presentation Domain Interface---------
+
+
+'---------Domain Layer---------
+'NetworkInteractor ..> IMenuUsecase
+NetworkInteractor ..> IDrawLineUsecase
+NetworkInteractor ..> INodePresenter
+NetworkInteractor ..> IEdgePresenter
+NetworkInteractor ..> Entities
+NetworkInteractor ..> springModel
+
+
+Class NetworkInteractor {
+    + [Node]
+    + [Edge]
+    + isLinked()
+}
+Class springModel {
+    + calculateNodeOrigin()
+    + springForce()
+    + repulsiveForce()
+    + frictionalForce()
+}
+
+package Entities {
+    Class Node {
+        + UUID id
+        + String name
+        + origin
+        + v
+        + visible
+        ---
+        + equals()
+    }
+    Class Edge {
+        + id
+        + startNode
+        + endNode
+        + direction
+        + initialLength
+        ---
+        + getStartPoint()
+        + getEndPoint()
+    }
+}
+
+'---------Domain Layer---------
+
+'---------Domain Data Interface---------
+NetworkInteractor ..> IRepository
+IRepository ..> Entities
+interface IRepository{
+    + save()
+    + load()
+}
+'---------Domain Data Interface---------
+
+'---------Data Layer---------
+LocalRepository --|> IRepository
+
+LocalFile ..> LocalRepository
+Class LocalRepository {
+    + save()
+}
+'---------Data Layer---------
+
+
+@enduml

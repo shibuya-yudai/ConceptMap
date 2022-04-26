@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		93B106E52815A85D0015CCD4 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93B106E42815A85D0015CCD4 /* HomeView.swift */; };
+		93B106E7281843C90015CCD4 /* README in Resources */ = {isa = PBXBuildFile; fileRef = 93B106E6281843C90015CCD4 /* README */; };
 		93ED4ED128072580007E48BB /* Concept_MapApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED4ED028072580007E48BB /* Concept_MapApp.swift */; };
 		93ED4ED328072580007E48BB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93ED4ED228072580007E48BB /* ContentView.swift */; };
 		93ED4ED528072584007E48BB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93ED4ED428072584007E48BB /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 
 /* Begin PBXFileReference section */
 		93B106E42815A85D0015CCD4 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		93B106E6281843C90015CCD4 /* README */ = {isa = PBXFileReference; lastKnownFileType = folder; path = README; sourceTree = "<group>"; };
 		93ED4ECD28072580007E48BB /* Concept Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Concept Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		93ED4ED028072580007E48BB /* Concept_MapApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Concept_MapApp.swift; sourceTree = "<group>"; };
 		93ED4ED228072580007E48BB /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 		93ED4EC42807257F007E48BB = {
 			isa = PBXGroup;
 			children = (
+				93B106E6281843C90015CCD4 /* README */,
 				93ED4ECF28072580007E48BB /* Concept Map */,
 				93ED4EE028072584007E48BB /* Concept MapTests */,
 				93ED4EEA28072584007E48BB /* Concept MapUITests */,
@@ -237,6 +240,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				93B106E7281843C90015CCD4 /* README in Resources */,
 				93ED4ED828072584007E48BB /* Preview Assets.xcassets in Resources */,
 				93ED4ED528072584007E48BB /* Assets.xcassets in Resources */,
 			);

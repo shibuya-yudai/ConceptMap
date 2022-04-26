@@ -1,0 +1,24 @@
+@startuml ユースケース図
+    left to right direction
+    skinparam actorStyle awesome
+
+    skinparam usecase {
+        BackgroundColor DarkSeaGreen
+        BorderColor DarkSlateGray
+    }
+
+    skinparam actor {
+        BackgroundColor #333333
+        BorderColor #999999
+    }
+
+    actor マップ作成者
+    rectangle 機能{
+        usecase ノードを追加
+        usecase ノード情報を編集する
+        usecase ノードを削除する
+        usecase エッジを追加
+        usecase エッジ情報を編集する
+        usecase エッジを削除する
+    }
+@enduml

@@ -1,0 +1,141 @@
+@startuml
+
+abstract class AbstractAudioPlayer {
+    + {abstract} void Play()
+}
+
+interface IPlayable {
+    + void Play()
+}
+
+enum Skill {
+    Attack,
+    Defence
+}
+@enduml
+
+@startuml
+Japanese --|> Human : 継承
+Wheel "4" --* "1" MotorVehicle : コンポジション
+Employee "many" --o  "1" Company : 集約
+Car -- VehicleInspection : 関連
+List ..|> IList : 実現
+Runner ..> Marathon : 依存
+
+interface IList
+abstract class Human
+@enduml
+
+@startuml
+class GameManager {
+    + {static} int Id
+    + int PlayerCount
+    + void StartGame()
+}
+
+note top of GameManager
+    これは<size:18>ゲーム全体を管理する</size>GameManagerクラスです。
+end note
+
+note left of GameManager
+    <b>太字のコメントも可能です</b>
+end note
+
+note bottom of GameManager
+    <u>下線を引くことや</u><i>斜体にすることもできます</i>
+end note
+
+note right of GameManager
+    <s>打ち消し線もできます</s>
+    <color:#FF0000>色の指定も可能です</color>
+end note
+@enduml
+
+@startuml
+hide empty members
+
+package PackageA {
+    Class ClassA {
+    }
+
+    package PackageB {
+        Class ClassB {
+        }
+    }
+}
+
+@enduml
+' 1. 名前は書こう
+@startuml ユースケース図
+    ' 2. 左から右に矢印 デフォルトは上から下
+    left to right direction
+
+    ' 3. 1行コメント
+    /'
+        複数行コメント
+     '/
+    ' 4. 棒人間 or 上半身
+    skinparam actorStyle awesome
+
+    ' 5. ユースケースの設定
+    skinparam usecase {
+        ' 5-1. ユースケースの背景色
+        BackgroundColor DarkSeaGreen
+        ' 5-2. ユースケースの境界線
+        BorderColor DarkSlateGray
+    }
+
+    ' 6. アクターの設定
+    skinparam actor {
+        ' 6-1. アクターの背景色 RGBでも指定できる
+        BackgroundColor #333333
+        ' 6-2. アクターの境界線 RGBでも指定できる
+        BorderColor #999999
+    }
+
+    ' 6-3. アクター（ペルソナ）人の設定
+    actor 閲覧者
+    ' 5-3. rectangle は四角で、packageは牛乳パックみたい
+    rectangle 勝敗予想 {
+        ' 7. エイリアス
+        usecase 閲覧 as view
+        ' 5. ユースケース設定
+        usecase 予想
+        usecase 勝率
+    }
+    ' 8. 矢印
+    ' 8-1. 矢印の長さ
+    閲覧者 --> view
+    ' 11. コメントを挟む
+    note "勝ち or 負け or 引分" as 動作
+    ' 8-2. 矢印のない線
+    閲覧者 -- 動作
+    動作 --> 予想
+    /' ダメな例 note "勝ち or 負け or 引分" as comment '/
+    閲覧者 --> 勝率
+    ' 9. メモ
+    note bottom of 閲覧者 : 試合を予想したりする
+    actor 管理者
+    package 試合 {
+        usecase 試合一覧
+        usecase 試合登録
+        usecase 試合更新
+        ' 10. 仕切り文字
+        usecase 大会に関連付け as "大会に
+        --
+        関連付け"
+        usecase 選手を登録
+        usecase 試合詳細
+    }
+    管理者 --> 試合一覧
+    管理者 --> 試合登録
+    管理者 --> 試合更新
+    ' 8-3. 点線
+    試合登録 .> 大会に関連付け
+    試合登録 .> 選手を登録
+    試合更新 .> 大会に関連付け
+    試合更新 .> 選手を登録
+    ' 8-4. 逆矢印
+    試合一覧 <-- 閲覧者
+    試合詳細 <-- 閲覧者
+@enduml
